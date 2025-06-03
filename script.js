@@ -4,7 +4,7 @@ class RobloxAIAssistant {
         this.courseData = [];
         this.chatHistory = [];
         this.settings = {
-            googleSheetUrl: '',
+            googleSheetUrl: 'https://docs.google.com/spreadsheets/d/1iLXLskYiOdDmnTC_2jbz8ypK6Sj6qzJOkGGUayQcpZ4/export?format=csv&gid=0',
             apiEndpoint: '/api/chat'
         };
         this.loadSettings();
