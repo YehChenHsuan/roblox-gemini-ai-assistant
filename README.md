@@ -1,227 +1,135 @@
-# Roblox Studio AI 助教 - Gemini API 版本
+# 台灣資訊教育發展協會 195 梯 Roblox 師訓 AI 助教
 
-## 🤖 專案簡介
+專為 Roblox Studio 課程設計的 AI 助教系統，使用 Google Gemini 2.0 Flash API 提供智能問答服務。
 
-這是一個專為台灣資訊教育發展協會195梯Roblox師訓課程設計的AI助教系統，使用Google Gemini 1.5 Flash-8B API（最高免費額度：每日1,500次請求）提供智慧問答服務。系統能夠根據Google Sheets中的課程資料，透過關鍵字搜尋為學員提供準確的課程指導。
+## ✨ 主要特色
 
-### ✨ 主要特色
+- 🤖 **智能 AI 助教**: 使用 Google Gemini 2.0 Flash（免費額度最高：每日 1,500 次請求）
+- 📚 **課程專精**: 專門針對 Roblox Studio 課程內容優化
+- 🔄 **自動回退**: 主模型失敗時自動切換到 Gemini 1.5 Flash-8B
+- 🌐 **多平台部署**: 支援 Vercel 和 Netlify 部署
+- 🔒 **安全防護**: 完整的輸入驗證和安全標頭
+- 📱 **響應式設計**: 支援桌面和移動設備
 
-- 🧠 **Google Gemini 1.5 Flash-8B**：最高免費額度的AI模型（每日1,500次請求）
-- 📊 **Google Sheets整合**：支援從Google Sheets自動載入課程資料
-- 🔍 **智慧關鍵字搜尋**：進階的關鍵字匹配演算法
-- 📱 **響應式設計**：完美支援桌面和行動裝置
-- 🌙 **深色主題**：護眼的深色界面設計
-- 📈 **學習統計**：追蹤學習進度和問答次數
-- 🚀 **一鍵部署**：支援Vercel和Netlify部署
+## 🚀 快速部署
 
-## 🛠️ 技術架構
+### Vercel 部署（推薦）
 
-- **前端**：純HTML5 + CSS3 + JavaScript (ES6+)
-- **後端API**：Node.js (Vercel/Netlify Functions)
-- **AI模型**：Google Gemini 1.5 Flash-8B（最佳免費額度）
-- **資料來源**：Google Sheets (CSV格式)
-- **部署平台**：Vercel / Netlify / GitHub Pages
-
-## 📋 課程資料格式
-
-Google Sheets需要包含以下欄位：
-- **Keyword** (關鍵字)：搜尋的主要關鍵詞
-- **Summary** (摘要)：詳細的說明內容
-- **Page** (頁碼)：教材頁碼參考
-- **Chapter** (章節)：所屬章節
-
-### 範例資料
-```csv
-Keyword,Summary,Page,Chapter
-Roblox Studio,Roblox的免費3D遊戲開發工具，支援Windows和Mac,P.02-03,Roblox Studio安裝與操作
-Luau,Roblox使用的程式語言，衍生自Lua 5.1,P.34-35,Roblox遊戲設計程式語言
-工具箱,Roblox內建模型庫，包含數千種預製物件、材質和音效,P.28,Roblox工具箱
-```
-
-## 🚀 快速開始
-
-### 1. 取得專案
-```bash
-git clone https://github.com/yourusername/roblox-ai-assistant-gemini.git
-cd roblox-ai-assistant-gemini
-```
-
-### 2. 設定Google Sheets
-1. 建立Google Sheets並填入課程資料
-2. 將Sheets設為「任何人都能檢視」
-3. 取得CSV匯出連結：`https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/export?format=csv&gid=0`
-
-### 3. 取得Gemini API Key
-1. 前往 [Google AI Studio](https://aistudio.google.com/app/apikey)
-2. 建立新的API金鑰
-3. 複製API金鑰備用
-
-## 📦 部署方式
-
-### 選項1：Vercel部署 (推薦)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Froblox-ai-assistant-gemini)
-
-1. 點擊上方按鈕或前往 [Vercel](https://vercel.com)
-2. 導入GitHub專案
+1. Fork 此專案到您的 GitHub
+2. 在 [Vercel](https://vercel.com) 導入專案
 3. 設定環境變數：
-   - `GEMINI_API_KEY`: 您的Gemini API金鑰
-4. 點擊「Deploy」
+   ```
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+4. 部署完成！
 
-### 選項2：Netlify部署
+### Netlify 部署
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/yourusername/roblox-ai-assistant-gemini)
-
-1. 點擊上方按鈕或前往 [Netlify](https://netlify.com)
-2. 連接GitHub專案
-3. 在「Environment variables」設定：
-   - `GEMINI_API_KEY`: 您的Gemini API金鑰
-4. 點擊「Deploy site」
-
-### 選項3：GitHub Pages + 外部API
-
-1. Fork這個專案到您的GitHub
-2. 在Repository Settings中開啟GitHub Pages
-3. 設定外部API服務（如Vercel Functions）處理API請求
-4. 在網站設定中輸入API端點URL
-
-## ⚙️ 設定說明
-
-### 環境變數
-- `GEMINI_API_KEY`: Google Gemini API金鑰 (必需)
-
-### 前端設定
-在瀏覽器中開啟網站後：
-1. 點擊右下角設定按鈕
-2. 輸入Google Sheets CSV URL
-3. 確認API端點設定
-4. 儲存設定
+1. Fork 此專案到您的 GitHub
+2. 在 [Netlify](https://netlify.com) 導入專案
+3. 設定環境變數：
+   ```
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+4. 部署完成！
 
 ## 🔧 本地開發
 
-### 安裝依賴
 ```bash
+# 安裝依賴
 npm install
+
+# 設定環境變數
+echo "GEMINI_API_KEY=your_api_key" > .env.local
+
+# 啟動開發伺服器
+npm run dev
 ```
 
-### 設定環境變數
-建立 `.env` 檔案：
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-```
+## 📋 環境變數
 
-### 啟動開發伺服器
-```bash
-# 使用Vercel CLI
-vercel dev
+| 變數名稱         | 說明                   | 必需 |
+| ---------------- | ---------------------- | ---- |
+| `GEMINI_API_KEY` | Google Gemini API 金鑰 | ✅   |
+| `FRONTEND_URL`   | 前端網址（用於 CORS）  | ❌   |
 
-# 或使用Netlify CLI
-netlify dev
-```
+## 🎯 API 端點
 
-訪問 `http://localhost:3000` 開始開發
+### POST /api/chat
 
-## 📱 功能說明
+處理 AI 問答請求
 
-### 智慧問答
-- 基於課程資料的關鍵字搜尋
-- Gemini AI增強回答品質
-- 支援繁體中文問答
-- 提供教材頁碼參考
+**請求格式:**
 
-### 課程導航
-- 章節快速導航
-- 常見問題快捷按鈕
-- 歷史記錄管理
-
-### 學習統計
-- 每日問答次數追蹤
-- 總問答數統計
-- 聊天記錄本地儲存
-
-## 🎨 自訂設定
-
-### 修改主題色彩
-編輯 `styles.css` 中的CSS變數：
-```css
-:root {
-    --primary-color: #00A2FF;
-    --secondary-color: #FF6B35;
-    --accent-color: #4ECDC4;
-    /* 更多顏色設定... */
-}
-```
-
-### 新增課程章節
-在 `script.js` 中的 `getDefaultCourseData()` 函數添加新資料：
-```javascript
+```json
 {
-    keyword: "新關鍵字",
-    summary: "詳細說明",
-    page: "P.XX",
-    chapter: "章節名稱"
+  "question": "使用者問題",
+  "relevantContent": [
+    {
+      "keyword": "關鍵字",
+      "summary": "摘要",
+      "page": "頁碼",
+      "chapter": "章節"
+    }
+  ]
 }
 ```
 
-## 🔒 安全性
+**回應格式:**
 
-- API金鑰安全存放在後端環境變數
-- 前端不暴露敏感資訊
-- CORS政策保護
-- 輸入驗證和過濾
+```json
+{
+  "response": "AI回答",
+  "usage": "使用統計",
+  "relevantContentCount": 3,
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "model": "gemini-2.0-flash-exp"
+}
+```
 
-## 🐛 疑難排解
+## 🔄 模型回退機制
 
-### 常見問題
+系統優先使用 **Gemini 2.0 Flash**（免費額度最高），如果失敗會自動回退到 **Gemini 1.5 Flash-8B**（成本最低）。
 
-**Q: API回應錯誤？**
-A: 檢查Gemini API金鑰是否正確設定在環境變數中
+## 📊 免費額度比較
 
-**Q: 無法載入課程資料？**
-A: 確認Google Sheets已設為公開，且CSV URL正確
+| 模型                | 每日請求限制 | 每分鐘請求限制 | 成本優勢     |
+| ------------------- | ------------ | -------------- | ------------ |
+| Gemini 2.0 Flash    | 1,500        | 15             | 免費額度最高 |
+| Gemini 1.5 Flash-8B | 500          | 15             | 成本最低     |
 
-**Q: 部署後功能異常？**
-A: 檢查平台的Functions設定和環境變數
+## 🛡️ 安全特性
 
-### 除錯方式
-1. 開啟瀏覽器開發者工具
-2. 查看Console錯誤訊息
-3. 檢查Network請求狀態
-4. 確認API回應格式
+- ✅ 輸入驗證和清理
+- ✅ CORS 安全設定
+- ✅ 安全標頭配置
+- ✅ API 重試機制
+- ✅ 錯誤處理和日誌
 
-## 📈 效能優化
+## 📱 功能特色
 
-- 課程資料本地快取
-- API請求節流控制
-- 圖片和資源壓縮
-- CDN加速
+- 🎯 **智能問答**: 基於課程內容的精準回答
+- 📚 **章節導航**: 快速瀏覽課程章節
+- 💾 **聊天記錄**: 自動保存對話歷史
+- 📊 **使用統計**: 追蹤學習進度
+- ⚙️ **設定管理**: 自訂 API 端點和資料來源
 
-## 🤝 貢獻指南
+## 🔧 技術架構
 
-歡迎提交Issue和Pull Request！
+- **前端**: 純 HTML/CSS/JavaScript
+- **後端**: Vercel Serverless Functions
+- **AI 模型**: Google Gemini 2.0 Flash / 1.5 Flash-8B
+- **部署**: Vercel / Netlify
+- **安全**: CORS、輸入驗證、安全標頭
 
-1. Fork專案
-2. 建立功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 開啟Pull Request
+## 📄 授權
 
-## 📄 授權條款
+MIT License - 詳見 [LICENSE](LICENSE) 文件
 
-本專案採用 MIT 授權條款 - 詳見 [LICENSE](LICENSE) 檔案
+## 🤝 貢獻
 
-## 📞 聯絡方式
-
-台灣資訊教育發展協會195梯Roblox師訓
-- 專案：[GitHub Repository](https://github.com/yourusername/roblox-ai-assistant-gemini)
-- 問題回報：[Issues](https://github.com/yourusername/roblox-ai-assistant-gemini/issues)
-
-## 🙏 致謝
-
-- Google Gemini AI提供智慧問答技術
-- Roblox Studio提供遊戲開發平台
-- 台灣資訊教育發展協會提供課程內容
+歡迎提交 Issue 和 Pull Request！
 
 ---
 
-**立即體驗** → [線上展示](https://your-deployment-url.vercel.app)
+**台灣資訊教育發展協會** | 專業程式教育推廣

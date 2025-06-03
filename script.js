@@ -1,23 +1,35 @@
-// Roblox Studio AI Assistant - Enhanced with Gemini API
+// Roblox Studio AI Assistant - 優化增強版
 class RobloxAIAssistant {
     constructor() {
         this.courseData = [];
         this.chatHistory = [];
         this.settings = {
-            googleSheetUrl: 'https://docs.google.com/spreadsheets/d/1iLXLskYiOdDmnTC_2jbz8ypK6Sj6qzJOkGGUayQcpZ4/export?format=csv&gid=0',
-            apiEndpoint: '/api/chat' // 使用後端Gemini API端點
+            googleSheetUrl: '',
+            apiEndpoint: '/api/chat'
         };
+        this.loadSettings();
+        this.loadingManager = new LoadingStateManager();
+        this.errorHandler = new ErrorHandler();
+        this.networkManager = new NetworkManager();
+        this.configManager = new ConfigManager();
+        
+        // 防抖動的發送函數
+        this.debouncedSendQuestion = this.debounce(this.sendQuestion.bind(this), 300);
         
         this.init();
     }
 
     async init() {
-        this.loadSettings();
-        this.setupEventListeners();
-        this.updateStats();
-        await this.loadCourseData();
-        
-        console.log('🤖 Roblox AI Assistant with Gemini API initialized');
+        try {
+            this.setupEventListeners();
+            this.updateStats();
+            await this.loadCourseData();
+            this.loadChatHistory();
+            
+            console.log('🤖 Roblox AI Assistant with Gemini API initialized');
+        } catch (error) {
+            this.errorHandler.handle(error, 'Initialization');
+        }
     }
 
     setupEventListeners() {
@@ -45,8 +57,12 @@ class RobloxAIAssistant {
         const saved = localStorage.getItem('robloxAI_settings');
         if (saved) {
             const savedSettings = JSON.parse(saved);
-            // 保持預設的Google Sheets URL，但允許覆蓋其他設定
-            this.settings = { ...this.settings, ...savedSettings };
+            // 保持預設的 API 端點，但允許覆蓋其他設定
+            this.settings = { 
+                ...this.settings, 
+                ...savedSettings,
+                apiEndpoint: savedSettings.apiEndpoint || '/api/chat'
+            };
         }
     }
 
@@ -383,6 +399,12 @@ class RobloxAIAssistant {
         
         if (data.relevantContentCount !== undefined) {
             console.log(`📚 使用了 ${data.relevantContentCount} 條相關教材`);
+        }
+        
+        // 顯示使用的模型
+        if (data.model) {
+            console.log(`🤖 使用模型: ${data.model}`);
+            this.showNotification(`使用 ${data.model === 'gemini-2.0-flash-exp' ? 'Gemini 2.0 Flash' : 'Gemini 1.5 Flash-8B'} 回答`, 'info');
         }
         
         return data.response;
