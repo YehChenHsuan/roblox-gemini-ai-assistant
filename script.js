@@ -8,15 +8,23 @@ class RobloxAIAssistant {
             apiEndpoint: '/api/chat'
         };
         this.loadSettings();
-        this.loadingManager = new LoadingStateManager();
-        this.errorHandler = new ErrorHandler();
-        this.networkManager = new NetworkManager();
-        this.configManager = new ConfigManager();
         
         // 防抖動的發送函數
         this.debouncedSendQuestion = this.debounce(this.sendQuestion.bind(this), 300);
         
         this.init();
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
 
     async init() {
@@ -28,7 +36,7 @@ class RobloxAIAssistant {
             
             console.log('🤖 Roblox AI Assistant with Gemini API initialized');
         } catch (error) {
-            this.errorHandler.handle(error, 'Initialization');
+            console.error('Initialization error:', error);
         }
     }
 
