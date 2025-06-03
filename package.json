@@ -1,0 +1,81 @@
+{
+  "name": "Roblox Studio AI助教",
+  "version": "2.0.0",
+  "description": "專為Roblox Studio課程設計的AI助教系統，使用Google Gemini API",
+  "author": "Taiwan Information Education Development Association",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/roblox-ai-assistant-gemini.git"
+  },
+  "homepage": "https://yourusername.github.io/roblox-ai-assistant-gemini/",
+  "keywords": [
+    "roblox",
+    "ai-assistant",
+    "education",
+    "programming",
+    "game-development",
+    "luau",
+    "chinese",
+    "gemini",
+    "google-ai"
+  ],
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build required'",
+    "start": "vercel dev",
+    "deploy": "vercel --prod",
+    "test": "echo 'No tests specified'"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0",
+    "vercel": "^32.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "features": [
+    "Google Gemini AI問答系統",
+    "Google Sheets資料庫整合",
+    "智慧關鍵字搜尋",
+    "課程章節導航",
+    "響應式設計",
+    "中文支援",
+    "統計追蹤",
+    "自動部署到Vercel/GitHub Pages"
+  ],
+  "requirements": {
+    "gemini-api": "需要有效的Google Gemini API Key",
+    "google-sheets": "需要公開的Google Sheets CSV連結",
+    "browser": "現代瀏覽器（Chrome, Firefox, Safari, Edge）"
+  },
+  "configuration": {
+    "api": {
+      "provider": "Google Gemini",
+      "model": "gemini-1.5-flash-8b",
+      "description": "最高免費額度：每日1,500次請求",
+      "temperature": 0.7,
+      "maxTokens": 1000
+    },
+    "data": {
+      "source": "Google Sheets",
+      "format": "CSV",
+      "encoding": "UTF-8",
+      "columns": ["Keyword", "Summary", "Page", "Chapter"]
+    },
+    "ui": {
+      "theme": "dark",
+      "language": "zh-TW",
+      "responsive": true
+    }
+  },
+  "deployment": {
+    "platforms": ["Vercel", "GitHub Pages"],
+    "build": "Static HTML/CSS/JS",
+    "cdn": "cdnjs.cloudflare.com"
+  }
+}

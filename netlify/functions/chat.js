@@ -1,41 +1,59 @@
-// Vercel/Netlify Functions - 使用Google Gemini API的後端函數
-export default async function handler(req, res) {
+// Netlify Functions - 使用Google Gemini API的後端函數
+exports.handler = async (event, context) => {
     // 設定CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+    };
     
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers,
+            body: ''
+        };
     }
     
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
+    if (event.httpMethod !== 'POST') {
+        return {
+            statusCode: 405,
+            headers,
+            body: JSON.stringify({ error: 'Method not allowed' })
+        };
     }
     
     try {
-        const { question, relevantContent } = req.body;
+        const { question, relevantContent } = JSON.parse(event.body);
         
         if (!question || !question.trim()) {
-            return res.status(400).json({ error: '問題不能為空' });
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ error: '問題不能為空' })
+            };
         }
         
-        // API Key從環境變數取得（不會暴露在前端）
+        // API Key從環境變數取得（在Netlify中設定）
         const API_KEY = process.env.GEMINI_API_KEY;
         
-        // 增加詳細的診斷資訊
         console.log('Environment check:', {
             hasApiKey: !!API_KEY,
             apiKeyLength: API_KEY ? API_KEY.length : 0,
-            apiKeyPrefix: API_KEY ? API_KEY.substring(0, 10) + '...' : 'undefined'
+            netlifyContext: context.awsRequestId || 'local'
         });
         
         if (!API_KEY) {
             console.error('GEMINI_API_KEY environment variable not found');
-            return res.status(500).json({ 
-                error: 'API配置錯誤：環境變數未設定',
-                debug: 'GEMINI_API_KEY not found'
-            });
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ 
+                    error: 'API配置錯誤：環境變數未設定',
+                    debug: 'GEMINI_API_KEY not found in Netlify environment'
+                })
+            };
         }
         
         // 建構教材內容資訊
@@ -64,9 +82,13 @@ ${courseInfo}
 - 回答要包含具體的操作步驟
 - 適當引用教材頁碼和章節
 - 保持友善和鼓勵的語調
-- 回答長度控制在200-500字`;
+- 回答長度控制在200-500字
+- 使用清晰的段落結構`;
         
         console.log('Making request to Gemini API...');
+        
+        // 使用動態import來載入node-fetch（Netlify環境需要）
+        const fetch = (await import('node-fetch')).default;
         
         // 使用Google Gemini API（Flash-8B 免費額度最高）
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b-latest:generateContent?key=${API_KEY}`, {
@@ -118,10 +140,14 @@ ${courseInfo}
                 errorText: errorText
             });
             
-            return res.status(response.status).json({ 
-                error: `Gemini API請求失敗: ${response.status} ${response.statusText}`,
-                details: errorText
-            });
+            return {
+                statusCode: response.status,
+                headers,
+                body: JSON.stringify({ 
+                    error: `Gemini API請求失敗: ${response.status} ${response.statusText}`,
+                    details: errorText
+                })
+            };
         }
 
         const data = await response.json();
@@ -129,26 +155,40 @@ ${courseInfo}
         // 檢查回應格式
         if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
             console.error('Unexpected Gemini API response format:', data);
-            return res.status(500).json({
-                error: '回應格式錯誤',
-                details: 'Unexpected API response format'
-            });
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({
+                    error: '回應格式錯誤',
+                    details: 'Unexpected API response format'
+                })
+            };
         }
         
         const responseText = data.candidates[0].content.parts[0].text;
         console.log('Gemini API success, response length:', responseText.length);
         
-        return res.status(200).json({
-            response: responseText,
-            usage: data.usageMetadata || null,
-            relevantContentCount: relevantContent ? relevantContent.length : 0
-        });
+        return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+                response: responseText,
+                usage: data.usageMetadata || null,
+                relevantContentCount: relevantContent ? relevantContent.length : 0,
+                timestamp: new Date().toISOString()
+            })
+        };
         
     } catch (error) {
-        console.error('Chat API Error:', error);
-        return res.status(500).json({ 
-            error: '服務暫時無法使用，請稍後再試',
-            details: error.message
-        });
+        console.error('Netlify Function Error:', error);
+        return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({ 
+                error: '服務暫時無法使用，請稍後再試',
+                details: error.message,
+                timestamp: new Date().toISOString()
+            })
+        };
     }
-}
+};

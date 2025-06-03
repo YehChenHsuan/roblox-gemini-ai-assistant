@@ -1,34 +1,26 @@
-# 🤖 Roblox Studio AI 助教 - Gemini 1.5 Flash-8B
+# Roblox Studio AI 助教 - Gemini API 版本
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYehChenHsuan%2Froblox-gemini-ai-assistant&env=GEMINI_API_KEY&envDescription=Google%20Gemini%20API%20Key&project-name=roblox-ai-assistant&repository-name=roblox-gemini-ai-assistant)
+## 🤖 專案簡介
 
-## 🎯 專案簡介
+這是一個專為台灣資訊教育發展協會195梯Roblox師訓課程設計的AI助教系統，使用Google Gemini 1.5 Flash-8B API（最高免費額度：每日1,500次請求）提供智慧問答服務。系統能夠根據Google Sheets中的課程資料，透過關鍵字搜尋為學員提供準確的課程指導。
 
-這是一個專為**台灣資訊教育發展協會195梯Roblox師訓課程**設計的AI助教系統，使用 **Google Gemini 1.5 Flash-8B**（**最高免費額度：每日1,500次請求**）提供智慧問答服務。
+### ✨ 主要特色
 
-### 🏆 **為什麼選擇 Flash-8B？**
-- 💰 **最高免費額度**：每日1,500次請求（比Pro版本多30倍！）
-- ⚡ **優化性能**：專為高頻使用場景設計
-- 🎓 **教育適配**：完美滿足教學問答需求
-- 🆓 **零成本運營**：完全免費使用
-
-## ✨ 主要特色
-
-- 🧠 **Google Gemini 1.5 Flash-8B**：最高免費額度的AI模型
+- 🧠 **Google Gemini 1.5 Flash-8B**：最高免費額度的AI模型（每日1,500次請求）
 - 📊 **Google Sheets整合**：支援從Google Sheets自動載入課程資料
 - 🔍 **智慧關鍵字搜尋**：進階的關鍵字匹配演算法
 - 📱 **響應式設計**：完美支援桌面和行動裝置
 - 🌙 **深色主題**：護眼的深色界面設計
 - 📈 **學習統計**：追蹤學習進度和問答次數
-- 🚀 **一鍵部署**：支援Vercel部署
+- 🚀 **一鍵部署**：支援Vercel和Netlify部署
 
 ## 🛠️ 技術架構
 
 - **前端**：純HTML5 + CSS3 + JavaScript (ES6+)
-- **後端API**：Node.js (Vercel Functions)
+- **後端API**：Node.js (Vercel/Netlify Functions)
 - **AI模型**：Google Gemini 1.5 Flash-8B（最佳免費額度）
 - **資料來源**：Google Sheets (CSV格式)
-- **部署平台**：Vercel
+- **部署平台**：Vercel / Netlify / GitHub Pages
 
 ## 📋 課程資料格式
 
@@ -46,33 +38,69 @@ Luau,Roblox使用的程式語言，衍生自Lua 5.1,P.34-35,Roblox遊戲設計�
 工具箱,Roblox內建模型庫，包含數千種預製物件、材質和音效,P.28,Roblox工具箱
 ```
 
-## 🚀 快速部署
+## 🚀 快速開始
 
-### 步驟1：一鍵部署到Vercel
-點擊上方的「Deploy with Vercel」按鈕
+### 1. 取得專案
+```bash
+git clone https://github.com/yourusername/roblox-ai-assistant-gemini.git
+cd roblox-ai-assistant-gemini
+```
 
-### 步驟2：設定環境變數
-在Vercel部署過程中，設定以下環境變數：
-- **變數名稱**: `GEMINI_API_KEY`
-- **值**: 您的Google Gemini API金鑰
+### 2. 設定Google Sheets
+1. 建立Google Sheets並填入課程資料
+2. 將Sheets設為「任何人都能檢視」
+3. 取得CSV匯出連結：`https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/export?format=csv&gid=0`
 
-### 步驟3：取得Gemini API Key
+### 3. 取得Gemini API Key
 1. 前往 [Google AI Studio](https://aistudio.google.com/app/apikey)
 2. 建立新的API金鑰
-3. 複製API金鑰到Vercel環境變數
+3. 複製API金鑰備用
 
-### 步驟4：測試部署
-部署完成後，測試以下功能：
-- "如何安裝Roblox Studio？"
-- "什麼是Luau程式語言？"
-- "工具箱有什麼功能？"
+## 📦 部署方式
 
-## ⚙️ 本地開發
+### 選項1：Vercel部署 (推薦)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Froblox-ai-assistant-gemini)
+
+1. 點擊上方按鈕或前往 [Vercel](https://vercel.com)
+2. 導入GitHub專案
+3. 設定環境變數：
+   - `GEMINI_API_KEY`: 您的Gemini API金鑰
+4. 點擊「Deploy」
+
+### 選項2：Netlify部署
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/yourusername/roblox-ai-assistant-gemini)
+
+1. 點擊上方按鈕或前往 [Netlify](https://netlify.com)
+2. 連接GitHub專案
+3. 在「Environment variables」設定：
+   - `GEMINI_API_KEY`: 您的Gemini API金鑰
+4. 點擊「Deploy site」
+
+### 選項3：GitHub Pages + 外部API
+
+1. Fork這個專案到您的GitHub
+2. 在Repository Settings中開啟GitHub Pages
+3. 設定外部API服務（如Vercel Functions）處理API請求
+4. 在網站設定中輸入API端點URL
+
+## ⚙️ 設定說明
+
+### 環境變數
+- `GEMINI_API_KEY`: Google Gemini API金鑰 (必需)
+
+### 前端設定
+在瀏覽器中開啟網站後：
+1. 點擊右下角設定按鈕
+2. 輸入Google Sheets CSV URL
+3. 確認API端點設定
+4. 儲存設定
+
+## 🔧 本地開發
 
 ### 安裝依賴
 ```bash
-git clone https://github.com/YehChenHsuan/roblox-gemini-ai-assistant.git
-cd roblox-gemini-ai-assistant
 npm install
 ```
 
@@ -84,23 +112,14 @@ GEMINI_API_KEY=your_gemini_api_key_here
 
 ### 啟動開發伺服器
 ```bash
-npm run dev
+# 使用Vercel CLI
+vercel dev
+
+# 或使用Netlify CLI
+netlify dev
 ```
 
-## 📈 免費額度說明
-
-| 模型 | 每日請求數 | 每分鐘請求數 | 上下文窗口 | 適用場景 |
-|------|-----------|-------------|-----------|----------|
-| **Gemini 1.5 Flash-8B** | **1,500** | 15 | 1M tokens | ✅ **教育問答** |
-| Gemini 1.5 Flash | 1,500 | 15 | 1M tokens | 複雜任務 |
-| Gemini 1.5 Pro | 50 | 2 | 2M tokens | 高智能任務 |
-
-## 🎓 教育使用估算
-
-假設一個班級有30位學員：
-- **每人每日可用**：50次問答 (1,500÷30)
-- **每節課使用**：約15-20次問答
-- **結論**：完全滿足教學需求 ✅
+訪問 `http://localhost:3000` 開始開發
 
 ## 📱 功能說明
 
@@ -113,49 +132,96 @@ npm run dev
 ### 課程導航
 - 章節快速導航
 - 常見問題快捷按鈕
-- 聊天記錄管理
+- 歷史記錄管理
 
 ### 學習統計
 - 每日問答次數追蹤
 - 總問答數統計
 - 聊天記錄本地儲存
 
+## 🎨 自訂設定
+
+### 修改主題色彩
+編輯 `styles.css` 中的CSS變數：
+```css
+:root {
+    --primary-color: #00A2FF;
+    --secondary-color: #FF6B35;
+    --accent-color: #4ECDC4;
+    /* 更多顏色設定... */
+}
+```
+
+### 新增課程章節
+在 `script.js` 中的 `getDefaultCourseData()` 函數添加新資料：
+```javascript
+{
+    keyword: "新關鍵字",
+    summary: "詳細說明",
+    page: "P.XX",
+    chapter: "章節名稱"
+}
+```
+
 ## 🔒 安全性
 
-- ✅ API金鑰安全存放在後端環境變數
-- ✅ 前端不暴露敏感資訊
-- ✅ CORS政策保護
-- ✅ 輸入驗證和過濾
+- API金鑰安全存放在後端環境變數
+- 前端不暴露敏感資訊
+- CORS政策保護
+- 輸入驗證和過濾
 
 ## 🐛 疑難排解
 
 ### 常見問題
 
 **Q: API回應錯誤？**
-A: 檢查Vercel環境變數中的 `GEMINI_API_KEY` 是否正確設定
+A: 檢查Gemini API金鑰是否正確設定在環境變數中
 
 **Q: 無法載入課程資料？**
-A: 確認Google Sheets已設為「任何知道連結的人都能檢視」
+A: 確認Google Sheets已設為公開，且CSV URL正確
 
-**Q: 部署失敗？**
-A: 檢查GitHub倉庫是否包含所有必要檔案
+**Q: 部署後功能異常？**
+A: 檢查平台的Functions設定和環境變數
 
-## 📞 技術支援
+### 除錯方式
+1. 開啟瀏覽器開發者工具
+2. 查看Console錯誤訊息
+3. 檢查Network請求狀態
+4. 確認API回應格式
 
-- 📧 **問題回報**：[GitHub Issues](https://github.com/YehChenHsuan/roblox-gemini-ai-assistant/issues)
-- 📚 **文檔資源**：查看專案內的詳細文檔
-- 🔧 **技術討論**：歡迎提交Pull Request
+## 📈 效能優化
 
-## 🙏 致謝
+- 課程資料本地快取
+- API請求節流控制
+- 圖片和資源壓縮
+- CDN加速
 
-- **Google Gemini AI** 提供智慧問答技術
-- **Roblox Studio** 提供遊戲開發平台
-- **台灣資訊教育發展協會** 提供課程內容
+## 🤝 貢獻指南
+
+歡迎提交Issue和Pull Request！
+
+1. Fork專案
+2. 建立功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 開啟Pull Request
 
 ## 📄 授權條款
 
-本專案採用 MIT 授權條款
+本專案採用 MIT 授權條款 - 詳見 [LICENSE](LICENSE) 檔案
+
+## 📞 聯絡方式
+
+台灣資訊教育發展協會195梯Roblox師訓
+- 專案：[GitHub Repository](https://github.com/yourusername/roblox-ai-assistant-gemini)
+- 問題回報：[Issues](https://github.com/yourusername/roblox-ai-assistant-gemini/issues)
+
+## 🙏 致謝
+
+- Google Gemini AI提供智慧問答技術
+- Roblox Studio提供遊戲開發平台
+- 台灣資訊教育發展協會提供課程內容
 
 ---
 
-**🎉 立即開始使用最高免費額度的AI助教系統！**
+**立即體驗** → [線上展示](https://your-deployment-url.vercel.app)
